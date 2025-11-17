@@ -1,65 +1,47 @@
-// import express from "express";
-// import dotenv from "dotenv";
-// import cors from "cors";
-// import { errorMiddleware } from "./middlewares/error.js";
-// import reservationRouter from "./routes/reservationRoute.js";
-// import { dbConnection } from "./database/dbConnection.js";
-
-// const app = express();
-// dotenv.config({ path: "./config.env" });
-
-// app.use(
-//   cors({
-//     origin: [process.env.FRONTEND_URL],
-//     methods: ["POST"],
-//     credentials: true,
-//   })
-// );
-// app.use(express.json());
-// app.use(express.urlencoded({ extended: true }));
-
-// app.use("/api/v1/reservation", reservationRouter);
-// app.get("/", (req, res, next)=>{return res.status(200).json({
-//   success: true,
-//   message: "HELLO WORLD AGAIN"
-// })})
-
-// dbConnection();
-
-// app.use(errorMiddleware);
-
-// export default app;
-
 import express from "express";
 import dotenv from "dotenv";
-import cors from "cors";
 import { dbConnection } from "./database/dbConnection.js";
 import { errorMiddleware } from "./middlewares/error.js";
 import reservationRouter from "./routes/reservationRoute.js";
 
-
-
 const app = express();
 dotenv.config({ path: "./config/config.env" });
 
+const allowedOrigins = [
+  process.env.FRONTEND_URL,
+  "http://localhost:5173",
+];
 
- app.use(
-  cors({
-    origin: [process.env.FRONTEND_URL],
-    methods: ["POST"],
-    credentials: true,
-  })
-);
+// GLOBAL CORS FIX
+app.use((req, res, next) => {
+  const origin = req.headers.origin;
 
+  if (allowedOrigins.includes(origin)) {
+    res.setHeader("Access-Control-Allow-Origin", origin);
+  }
 
+  res.setHeader("Access-Control-Allow-Methods", "GET,POST,OPTIONS");
+  res.setHeader("Access-Control-Allow-Headers", "Content-Type,Authorization");
+  res.setHeader("Access-Control-Allow-Credentials", "true");
+
+  if (req.method === "OPTIONS") {
+    return res.sendStatus(200);
+  }
+
+  next();
+});
+
+// Parsers
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
+// Routes
 app.use("/api/v1/reservation", reservationRouter);
 
+// Database
 dbConnection();
 
+// Error Handler
 app.use(errorMiddleware);
-
 
 export default app;
