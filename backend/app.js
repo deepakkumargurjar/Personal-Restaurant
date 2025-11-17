@@ -9,7 +9,7 @@ dotenv.config({ path: "./config/config.env" });
 
 const allowedOrigins = [
   process.env.FRONTEND_URL,
-  "https://gujjar-restaurant.onrender.com",
+  "https://gujjar-restaurant-cpoo.onrender.com",
 ];
 
 // GLOBAL CORS FIX
