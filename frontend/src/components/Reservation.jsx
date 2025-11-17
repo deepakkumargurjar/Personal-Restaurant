@@ -22,7 +22,7 @@ const Reservation = () => {
 
     try {
       const { data } = await axios.post(
-        "http://localhost:4000/api/v1/reservation/send",
+        "https://gujjar-restaurant-a9ws.onrender.com",
         { firstName, lastName, email, phone, date, time },
         { headers: { "Content-Type": "application/json" }, withCredentials: true }
       );
