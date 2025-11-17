@@ -17,8 +17,9 @@ const Reservation = () => {
   const handleReservation = async (e) => {
     e.preventDefault();
     try {
-      const { data } = await axios.post(
-  "https://vercel.com/deepakkumargurjars-projects/gujjar-restaurant",
+     const { data } = await axios.post(
+  "https://gujjar-restaurant.onrender.com/api/v1/reservation/send",
+
         { firstName, lastName, email, phone, date, time },
         {
           headers: {
