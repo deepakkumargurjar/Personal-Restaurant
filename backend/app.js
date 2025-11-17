@@ -9,7 +9,7 @@ dotenv.config({ path: "./config/config.env" });
 
 const allowedOrigins = [
   process.env.FRONTEND_URL,
-  "http://localhost:5173",
+  "https://gujjar-restaurant-git-main-deepakkumargurjars-projects.vercel.app/",
 ];
 
 // GLOBAL CORS FIX
